@@ -1,0 +1,300 @@
+<meta charset="utf-8">
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<script src="https://distill.pub/template.v1.js"></script>
+
+<script>
+
+$(document).ready(function () { // this need jquery
+  renderMathInElement(document.body, {
+    // ...options...
+    delimiters: [
+      { left: "$$", right: "$$", display: true },
+      { left: "$", right: "$", display: false },
+      { left: "\\[", right: "\\]", display: true }
+    ]
+  });
+});
+</script>
+
+
+
+
+
+<script type="text/front-matter">
+  title: "Siamese Networks and Triplet Loss"
+  description: "Exploring siamese networks and different strategies of training them using triplet loss"
+  authors:
+  - Atishay Jain
+  - Varun Gohil
+  - Deepak Narayan
+  affiliations:
+  - IIT Gandhinagar
+  - IIT Gandhinagar
+  - IIT Gandhinagar
+</script>
+<body>
+<dt-article>
+
+  <h1>Siamese Networks and Triplet Loss</h1>
+  <h2>Exploring siamese networks and different strategies of training them using triplet loss</h2>
+  <dt-byline></dt-byline>
+
+
+  <p>Deep neural networks have shown to give highly accurate results across problems in machine learning. However, this accuracy comes at a price which manifests in the form of high data requirements. To alleviate the problem of low amounts of data, techniques such as data augmentation, transfer learning and one-shot learning are used</p>
+  <p>In this article we plan to introduce and explain one-shot learning using siamese networks and triplet loss. We will look at what siamese networks are and what kind of loss functions are used. We will examine the advantages of siamese networks over state-of-the-art classifiers with the example of MNIST data. We will then further explore triplet loss and how to select ‘useful’ triplets for training siamese networks. Continuing with the example of MNIST, we shall examine the advantages of triplet loss and the different triplet selection methods.</p>
+
+  <h2>One Shot Learning</h2>
+  <p>One shot learning is a classification technique used to train neural networks using only one or a few training samples. Apart from the advantage of requiring fewer samples than usual classification algorithms, it allows for increasing the number of classes without having to change the architecture of the model.</p>
+  <p>In one shot learning, we aim to create a distance metric or a similarity function which brings samples of the same class closer to each other and those of different classes farther from each other. Therefore, we can judge which class a test sample belongs to be measuring the distance of the sample from the different classes. </p>
+
+  <h2>Siamese Networks</h2>
+  <p>One such learning technique is called a siamese network. In a siamese network, we try to create embeddings of the samples such that the distance between samples of the same class is lower and between those of different classes is higher. A siamese network consists of two exact same neural networks with identical weights. We then pass a sample each into both the networks, calculate the loss and then depending on whether they are from the same class or different classes, we update the weights of both the networks. Since both the networks are identical, their weights will still remain the same after backpropagation. </p>
+
+  <p>As per figure TODO, you can see that a loss is calculated between the embeddings of both the networks. This automatically triggers the question as to what loss can be used for such networks. Two losses used in siamese networks are:
+  <ol>
+    <li>Contrastive Loss </li>
+    <li>Triplet Loss</li>
+  </ol>
+  </p>
+
+  <h2>Contrastive Loss</h2>
+
+  <p>The contrastive loss is defined between embeddings of two different inputs as:
+  \[Contrastive \, Loss = \frac{1}{2} \times (1-w) \times d(x,y)^2 + \frac{1}{2} \times w \times max(0, m - d(x,y))^2\]
+  where, <ul style="list-style: none; margin-top: -25">
+    <li style="margin: 0;padding: 0em;">x = input sample 1</li>
+    <li style="margin: 0;padding: 0em;">y = input sample 2</li>
+    <li style="margin: 0;padding: 0em;">d(x,y) = distance metric between the embeddings of x and y</li> 
+    <li style="margin: 0;padding: 0em;">w = binary variable which tells us whether x and y are in the same class (w = 0) or different classes (w = 1)</li> 
+    <li style="margin: 0;padding: 0em;">m = margin</li>
+</ul>
+  </p>
+
+  <p>  Essentially, siamese networks try to create an embedding of the inputs such that inputs of the same class cluster together. The margin ‘m’ decides the distance between different clusters. Furthermore, the distance function can be any distance metric (for example euclidean distance).</p>
+<p>
+
+  <style>
+  #compare-cw {
+    display: grid;
+    grid-gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  #compare-cw .subfigure {
+      display: grid;
+      grid-gap: 20px;
+      grid-template-columns: repeat(2, minmax(160px, 1fr));
+      /* grid-auto-rows: min-content; */
+      /* grid-template-rows: min-content auto; */
+    }
+  
+
+  #compare-cw .figcaption {
+    text-align: center;
+    padding-top: 5px;
+    margin-top: 5px;
+      /* min-height: 179px; */
+      /* min-width: 179px; */
+      /* flex: 1; */
+  }
+
+
+  </style>
+
+<figure id="compare-cw" class="l-page">
+      <div class="subfigure">
+        <h5 style="grid-column: span 2;" class="column-heading">Contrastive Loss Comparison</h5>
+        <div style="grid-column: 1;" class="evidence">
+            <img src="static_images/image2.png" alt="CWtrain">
+            <div class="figcaption">
+                <strong>Figure A </strong>- Train data embeddings after training using contrastive loss
+            </div>
+        </div>
+        <div style="grid-column: 2;" class="estimate">
+            <img src="static_images/image4.png" alt="CWval">
+            <div class="figcaption">
+                <strong>Figure B </strong>- Validation data embeddings after training using contrastive loss
+            </div>
+        </div>
+      </div>
+      
+  </figure>
+
+</p>
+  <p>As you can see in figure A, using contrastive loss converges the embeddings of training inputs of the same class very close to each other. However, we see that is not the case for the validation samples. We can see in figure B, that the embeddings do not cluster properly and that there are many overlaps. This hints to an evidence of overfitting when we use contrastive loss. Hence we use another type of loss - triplet loss.</p>
+
+  <h2>Triplet Loss</h2>
+
+  <p>As seen earlier, Contrastive loss does not generalize well as it forces samples belonging to the same class to collapse to a single point. Triple loss ameliorates this problem by enforcing the following constraint: <br/>
+    Embeddings of samples belonging to the same class must be closer to each other than embeddings of samples belonging to different classes.
+</p>
+
+  <p>Triplet Loss is defined over triplets of samples in the dataset. Every triplet has 3 samples, each of which falls into a distinct category out of the ones given below:
+    <ol>
+      <li>Anchor: Can be any sample of the dataset. The remaining two categories are defined on the basis of the anchor’s class</li>
+      <li>Positive: A sample from the dataset which belongs to the same class as the anchor</li>
+      <li>Negative: A sample from the dataset which does not belong to the same class as the anchor</li>
+    </ol>
+
+</p>
+  <p>
+    Formally, the triplet loss can be defined as:
+
+\[Triplet \, loss = max( d(a,p) - d(a,n) + m, 0)\]
+
+where, <ul style="list-style: none; margin-top: -25">
+    <li style="margin: 0;padding: 0em;">a =  anchor sample</li>
+    <li style="margin: 0;padding: 0em;">p = positive sample</li>
+    <li style="margin: 0;padding: 0em;">n = negative sample </li> 
+    <li style="margin: 0;padding: 0em;">d(x,y) = distance metric between the embeddings of x and y</li> 
+    <li style="margin: 0;padding: 0em;">m = margin</li>
+</ul>
+
+
+  </p>
+
+<p>Just like contrastive loss, m is a hyperparameter which dictates the distance between the clusters of two different classes.
+</p>
+
+
+<p>
+<figure id="compare-cw" >
+      <div class="subfigure" style ="grid-template-columns: repeat(1, minmax(160px, 1fr));">
+        
+        <div style="grid-column: 1;" class="evidence">
+            <img src="static_images/image1.png" alt="TLTriplets">
+            <div class="figcaption">
+                How triplet loss learns embeddings
+            </div>
+        </div>
+       
+      </div>
+      
+  </figure>
+</p>
+<p>Let us consider the MNIST dataset again. While training, our aim is to minimize the triplet loss. Hence, the d(a,p) term which signifies the distance between the embeddings of two samples of the same class is pushed towards zero. Therefore, if the anchor is of class ‘5’, another image of the class ’5’ would be chosen and distance between their embeddings would be reduced. For the negative sample, an image belonging to a class other than ‘5’ would be selected. Let us assume the class of the negative image is ‘6’. Since there is a negative sign in front of the d(a,n) term, minimizing the loss would increase this term. Therefore the distance between the embeddings of the ‘5’ class anchor and ‘6’ class negative sample will increase. Furthermore, to bring the loss to 0, d(a,n) must be increased until it is greater than the sum of the margin and d(a,p).</p>
+
+<p>
+<figure id="compare-cw" >
+      <div class="subfigure" style ="grid-template-columns: repeat(1, minmax(160px, 1fr));">
+        
+        <div style="grid-column: 1;" class="evidence">
+            <img src="static_images/image3.png" alt="TLNetwork">
+            <div class="figcaption">
+                Network for training with triplet loss
+            </div>
+        </div>
+       
+      </div>
+      
+  </figure>
+</p>
+<p>For training, the anchor, positive sample and the negative sample are each given as an input to three networks that are identical in structure and weights. These networks output the embedding of these 3 samples and these embeddings are used to compute the triplet loss. The loss is accumulated over all triplets formed by a batch of N samples and after the loss has been computed for all triplets, the gradients are back-propagated. </p>
+
+<p>As triplet loss just aims to have a positive sample closer to anchor than the negative sample, it does not force all samples of the same class to collapse to a single point. Visualization [TODO] shows how the distances between samples vary with each training iteration. We can see the positive samples moving closer and the negative ones moving away. This also shows triplet loss generalizes better than contrastive loss. </p>
+
+<p>The triplet loss has only one hyperparameter - the margin. It represents the distances between two clusters of samples of different classes. The greater the margin, the greater the inter-cluster distance. The effect of changing the margin can be seen in the visualization below.</p>
+  
+  <p>
+    For the above visualizations, we have used the  Euclidean distance as the distance metric. However, any distance metric can be used. Using the Euclidean distance has an advantage that the margin is more interpretable, as it represents the absolute distance. Visualizations below show how the samples converge when trained using different distance metrics. 
+
+  </p>
+
+  <p>Although triplet loss might seem to be a panacea, it does have its own cons. A major con of triplet loss is its scalability with respect to dataset size. As the size of datasets increase, the number of possible triplets also increases cubically. For example, for a batch of N samples there are O(N^3) possible triplets. This makes training over all the triplets of large datasets impractical. </p>
+
+  <p>This problem can be alleviated if one smartly chooses the triplets for training. Ideally one would like to select a triplet which has the anchor, the hardest positive and the hardest negative, where hardest positive = argmaxpd(a,p) and hardest negative = argminnd(a,n). However, for a large dataset, it might be infeasible to compute argmax and argmin. Further, selecting the hardest samples might also result in poor training due to sample mislabelling and presence of outliers. </p>
+
+  <p>The very definition of triplet loss classifies each triplet in three different categories. This classification of triplets can be used to select triplets for training. The three categories are as follows:
+    <ol>
+      <li>Easy Triplets : Triplets which have a loss of zero i,e d(a,n) > d(a,p) + margin</li>
+      <li>Semi-hard Triplets: Triplets for which positive is farther away from the anchor than the negative i.e. d(a, p) > d(a,n)
+</li>
+<li>Hard Triplets : triplets where the negative is not closer to the anchor than the positive, but which still have positive loss i.e d(a, p) + margin > d(a,n) > d(a, p)</li>
+    </ol>
+</p>
+
+<figure id="compare-cw" >
+      <div class="subfigure" style ="grid-template-columns: repeat(1, minmax(160px, 1fr));">
+        
+        <div style="grid-column: 1;" class="evidence">
+            <img src="static_images/image5.png" alt="TLTriplettypes">
+            <div class="figcaption">
+                Types of triplets
+            </div>
+        </div>
+       
+      </div>
+      
+  </figure>
+</p>
+
+<p>The easy triplets already satisfy the constraint of triplet loss and do not contribute while training. This leads to slower convergence and wasted computational resources. Hence one should avoid easy triplets while training. Selecting the hardest negatives can in practice lead to bad local minima early on in training, specifically, it can result in a collapsed model [Cite FaceNet]. Hence for training, we avoid selecting easy or hard triplets and select semi-hard triplets. These semi-hard triplets generally lie inside the margin area as can be seen in Figure below</p>
+
+<h2>Triplet Mining</h2>
+<p>Now that we know which triplets to select, we need to define a strategy to select these triplets before each epoch. The procedure for selecting useful triplets is known as triplet mining. It can be divided into two broad categories:
+<ol>
+  <li>Offline Triplet Mining: All triplets generated at beginning. Not a good method for selecting triplets due to the high overhead of generating all triplets once.</li>
+  <li>Online Triplet Mining: All triplets generated while training. Within online triplet mining there are a few techniques.
+    <ol type = "a">
+      <li>Batch all: Select all the valid triplets, and average the loss on the hard and semi-hard triplets. 
+        <ul>
+          <li>A crucial point here is to not take into account the easy triplets (those with loss 0), as averaging on them would make the overall loss very small</li>
+          <li>Assuming that there are N classes with S samples in each class, this method produces a total of NS(S−1)(NS−S) triplets. (NS anchors, S−1 possible positives per anchor, NS - S possible negatives)
+</li>
+        </ul></li>
+        <li>
+          Batch hard: For each anchor, select the hardest positive (largest distance amongst all d(a,p)) and the hardest negative (least distance amongst all d(a,n)) among the batch
+          <ul>
+            <li>Again assuming that there are N classes with S samples in each class, this method produces NS triplets</li>
+            <li>The selected triplets are the hardest among the batch</li>
+          </ul>
+
+        </li>
+    </ol></li>
+</ol></p>
+
+
+  <!-->
+  <p>We can also cite <dt-cite key="facenet"></dt-cite> external publications.</p></!-->
+</dt-article>
+</body>
+<dt-appendix>
+</dt-appendix>
+
+<script type="text/bibliography">
+  @article{gregor2015draw,
+    title={DRAW: A recurrent neural network for image generation},
+    author={Gregor, Karol and Danihelka, Ivo and Graves, Alex and Rezende, Danilo Jimenez and Wierstra, Daan},
+    journal={arXivreprint arXiv:1502.04623},
+    year={2015},
+    url={https://arxiv.org/pdf/1502.04623.pdf}
+  }
+
+  @inproceedings{facenet,
+  title={Facenet: A unified embedding for face recognition and clustering},
+  author={Schroff, Florian and Kalenichenko, Dmitry and Philbin, James},
+  booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
+  pages={815--823},
+  year={2015}
+}
+
+@article{tripletdefense,
+  title={In defense of the triplet loss for person re-identification},
+  author={Hermans, Alexander and Beyer, Lucas and Leibe, Bastian},
+  journal={arXiv preprint arXiv:1703.07737},
+  year={2017}
+}
+
+@inproceedings{contrastive,
+  title={Dimensionality reduction by learning an invariant mapping},
+  author={Hadsell, Raia and Chopra, Sumit and LeCun, Yann},
+  booktitle={2006 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR'06)},
+  volume={2},
+  pages={1735--1742},
+  year={2006},
+  organization={IEEE}
+}
+</script>
