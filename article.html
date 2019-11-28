@@ -66,7 +66,7 @@ function show_image_1112(val) {
     var img2 = document.createElement("img");
     img.src = "distance_viz/L2_train_epoch_" + val + ".png";
     img2.src = "distance_viz/L2_test_epoch_"+ val +".png";
-    document.canva11.src = img.src
+    document.canvas11.src = img.src
     document.canvas12.src = img2.src
     img.width = 100;
     img.height = 100;
@@ -83,7 +83,7 @@ function show_image_1314(val) {
     var img2 = document.createElement("img");
     img.src = "distance_viz/L1_train_epoch_" + val + ".png";
     img2.src = "distance_viz/L1_test_epoch_"+val+".png";
-    document.canva13.src = img.src
+    document.canvas13.src = img.src
     document.canvas14.src = img2.src
     img.width = 100;
     img.height = 100;
@@ -359,8 +359,8 @@ where, <ul style="list-style: none; margin-top: -25">
 <!-- <p id="demo" align="center">Margin = 1</p> -->
   
   <p>
-    For the above visualizations, we have used the L2-squared distance as the distance metric. However, any distance metric can be used. The effect of using different distance functions on the learned embeddings can be seen using the visualization below. Figures 11 and 12 show the embeddings learned after each epoch using L2 distance metric. Figure 13 and 14 show the embeddings learned after each epoch for L1 distance metric. As can be seen, the embeddings learned using L1 distance metric are not suitable for performing classification, while those obtained using L2 distance are suitable for classification. Using the L2 distance has an added advantage that the margin is more interpretable, as it represents the absolute distance. We plan to investigate the reason behind the poor performance of L1 distance based embeddings in future. 
-  </p>
+    For the above visualizations, we have used the L2-squared distance as the distance metric. However, any distance metric can be used. The effect of using different distance functions on the learned embeddings can be seen using the visualization below. Figures 11 and 12 show the embeddings learned after each epoch using L2 distance metric. Figure 13 and 14 show the embeddings learned after each epoch for L1 distance metric. Using the L2 distance has an added advantage that the margin is more interpretable, as it represents the absolute distance. Overall, the distance metrics of L1, L2 and L2-squared all perform well.
+  </p> 
 
 
 <figure id="compare-cw" class="l-page">
