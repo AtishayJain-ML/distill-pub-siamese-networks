@@ -292,7 +292,7 @@ where, <ul style="list-style: none; margin-top: -25">
   </figure>
 </p>
 
-<p>The easy triplets already satisfy the constraint of triplet loss and do not contribute while training. Using easy triplets, leads to slower convergence and wasted computational resources. Hence one should avoid easy triplets while training. Selecting the hardest negatives can in practice lead to bad local minima early on in training, specifically, it can result in a collapsed model [Cite FaceNet]. Hence for training, we avoid selecting easy or hard triplets and select semi-hard triplets. These semi-hard triplets generally lie inside the margin area as can be seen in Figure below</p>
+<p>The easy triplets already satisfy the constraint of triplet loss and do not contribute while training. Using easy triplets, leads to slower convergence and wasted computational resources. Hence one should avoid easy triplets while training. Selecting the hardest negatives can in practice lead to bad local minima early on in training, specifically, it can result in a collapsed model [Cite FaceNet]. Hence for training, we avoid selecting easy or hard triplets and select semi-hard triplets. These semi-hard triplets generally lie inside the margin area as can be seen in Figure above</p>
 
 <h2>Triplet Mining</h2>
 <p>Now that we know which triplets to select, we need to define a strategy to select these triplets before each epoch. The procedure for selecting useful triplets is known as triplet mining. It can be divided into two broad categories:
