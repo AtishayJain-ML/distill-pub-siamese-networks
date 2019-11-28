@@ -21,22 +21,41 @@ $(document).ready(function () { // this need jquery
 </script>
 
 
+<script>
 
+function show_image(val) {
+  document.getElementById("demo").innerHTML = "Margin = " + val;
+  document.getElementById("caption1").innerHTML = "<strong>Figure A </strong>- Train data embeddings after training using triplet loss with margin " + val;
+  document.getElementById("caption2").innerHTML = "<strong>Figure B </strong>- Test data embeddings after training using triplet loss with margin " + val;
+  
+    var img = document.createElement("img");
+    var img2 = document.createElement("img");
+    img.src = "margin_viz/train_margin_"+val+"_axis_40.png";
+    img2.src = "margin_viz/val_margin_"+val+"_axis_40.png";
+    document.canvas.src = img.src
+    document.canvas2.src = img2.src
+    img.width = 100;
+    img.height = 100;
+    img.alt = 'Margin Visualization';
+}
+
+</script>
 
 
 <script type="text/front-matter">
   title: "Siamese Networks and Triplet Loss"
   description: "Exploring siamese networks and different strategies of training them using triplet loss"
   authors:
-  - Atishay Jain
-  - Varun Gohil
-  - Deepak Narayan
+  - Atishay Jain*
+  - Varun Gohil*
+  - S. Deepak Narayanan*
   affiliations:
   - IIT Gandhinagar
   - IIT Gandhinagar
   - IIT Gandhinagar
 </script>
 <body>
+  <dt-fn>* Denotes equal contrbution. Authorship order decided by rolling a die</dt-fn>
 <dt-article>
 
   <h1>Siamese Networks and Triplet Loss</h1>
@@ -116,7 +135,7 @@ $(document).ready(function () { // this need jquery
         <div style="grid-column: 2;" class="estimate">
             <img src="static_images/image4.png" alt="CWval">
             <div class="figcaption">
-                <strong>Figure B </strong>- Validation data embeddings after training using contrastive loss
+                <strong>Figure B </strong>- Test data embeddings after training using contrastive loss
             </div>
         </div>
       </div>
@@ -127,6 +146,7 @@ $(document).ready(function () { // this need jquery
   <p>As you can see in figure A, using contrastive loss converges the embeddings of training inputs of the same class very close to each other. However, we see that is not the case for the validation samples. We can see in figure B, that the embeddings do not cluster properly and that there are many overlaps. This hints to an evidence of overfitting when we use contrastive loss. Hence we use another type of loss - triplet loss.</p>
 
   <h2>Triplet Loss</h2>
+
 
   <p>As seen earlier, Contrastive loss does not generalize well as it forces samples belonging to the same class to collapse to a single point. Triple loss ameliorates this problem by enforcing the following constraint: <br/>
     Embeddings of samples belonging to the same class must be closer to each other than embeddings of samples belonging to different classes.
@@ -197,6 +217,47 @@ where, <ul style="list-style: none; margin-top: -25">
 <p>As triplet loss just aims to have a positive sample closer to anchor than the negative sample, it does not force all samples of the same class to collapse to a single point. Visualization [TODO] shows how the distances between samples vary with each training iteration. We can see the positive samples moving closer and the negative ones moving away. This also shows triplet loss generalizes better than contrastive loss. </p>
 
 <p>The triplet loss has only one hyperparameter - the margin. It represents the distances between two clusters of samples of different classes. The greater the margin, the greater the inter-cluster distance. The effect of changing the margin can be seen in the visualization below.</p>
+
+<figure id="compare-cw" class="l-page">
+      <div class="subfigure">
+        <!-- <h5 style="grid-column: span 2;" class="column-heading">Contrastive Loss Comparison</h5> -->
+        <div style="grid-column: 1;" class="evidence">
+  <img src="margin_viz/train_margin_1_axis_40.png" name="canvas" style="height: 500px;width: 500px" />
+            <div class="figcaption" id="caption1">
+                <strong>Figure A </strong>- Train data embeddings after training using triplet loss with margin 1
+            </div>
+<!--   <input type="range" name="weight" align="center" id="range_weight" value="1" min="1" max="20" oninput="show_image(range_weight.value)">
+  <p id="demo">Margin = 1</p> -->
+        </div>
+        <div style="grid-column: 2;" class="estimate">
+  <img src="margin_viz/train_margin_1_axis_40.png" name="canvas2" style="height: 500px;width: 500px" />
+            <div class="figcaption" id="caption2">
+                <strong>Figure B </strong>- Test data embeddings after training using triplet loss with margin 1
+            </div>
+        </div>
+      </div>
+      
+  </figure>
+  <center>
+      <input type="range" name="weight" align="center" id="range_weight" value="1" min="1" max="20" oninput="show_image(range_weight.value)">
+  <br>
+    <p id="demo" align="center">Margin = 1</p>
+    
+  </center>
+
+</p>
+
+<!-- <p align = "center">
+  <img src="margin_viz/train_margin_1_axis_40.png" name="canvas" style="height: 500px;width: 500px" />
+<br>
+<input type="range" name="weight" alilgn="center" id="range_weight" value="1" min="1" max="20" oninput="show_image(range_weight.value)">
+
+</p> -->
+
+
+
+
+<!-- <p id="demo" align="center">Margin = 1</p> -->
   
   <p>
     For the above visualizations, we have used the  Euclidean distance as the distance metric. However, any distance metric can be used. Using the Euclidean distance has an advantage that the margin is more interpretable, as it represents the absolute distance. Visualizations below show how the samples converge when trained using different distance metrics. 
