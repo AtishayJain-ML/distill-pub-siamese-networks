@@ -474,6 +474,10 @@ where, <ul style="list-style: none; margin-top: -25">
   <p>
 In this paper, we exlpain how one can use siamese networks for one-shot learning. We also explain the advantages of using triplet loss over contrastive loss. Further, we include visualizations that helps one understand how the value of margin and the distance metric affect the embedding learned using siamese networks with triplet loss. Finally, we also explain how one should select triplets and perform triplet mining for optimizing the training phase of siamese networks. 
  </p>   
+ <p>
+  Some other useful material can be found at  <dt-cite key="arsenault_2018"></dt-cite>,<dt-cite key="qian2019softtriple"></dt-cite>,<dt-cite key="DBLP:journals/corr/abs-1905-11713"></dt-cite>,<dt-cite key="gandhi_2018"></dt-cite>,<dt-cite key="DBLP:journals/corr/HermansBL17"></dt-cite>
+
+  </p>
 </dt-article>
 </body>
 <dt-appendix>
@@ -504,4 +508,51 @@ In this paper, we exlpain how one can use siamese networks for one-shot learning
   year={2006},
   organization={IEEE}
 }
+@misc{arsenault_2018, title={Lossless Triplet loss}, url={https://towardsdatascience.com/lossless-triplet-loss-7e932f990b24}, journal={Medium}, publisher={Towards Data Science}, author={Arsenault, Marc-Olivier}, year={2018}, month={Feb}}
+
+@misc{qian2019softtriple,
+    title={SoftTriple Loss: Deep Metric Learning Without Triplet Sampling},
+    author={Qi Qian and Lei Shang and Baigui Sun and Juhua Hu and Hao Li and Rong Jin},
+    year={2019},
+    eprint={1909.05235},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
+}
+
+@article{DBLP:journals/corr/abs-1905-11713,
+  author    = {Pengcheng Li and
+               Jinfeng Yi and
+               Bowen Zhou and
+               Lijun Zhang},
+  title     = {Improving the Robustness of Deep Neural Networks via Adversarial Training
+               with Triplet Loss},
+  journal   = {CoRR},
+  volume    = {abs/1905.11713},
+  year      = {2019},
+  url       = {http://arxiv.org/abs/1905.11713},
+  archivePrefix = {arXiv},
+  eprint    = {1905.11713},
+  timestamp = {Mon, 03 Jun 2019 13:42:33 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1905-11713},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@misc{gandhi_2018, title={Siamese Network & Triplet Loss}, url={https://towardsdatascience.com/siamese-network-triplet-loss-b4ca82c1aec8}, journal={Medium}, publisher={Towards Data Science}, author={Gandhi, Rohith}, year={2018}, month={May}}
+
+@article{DBLP:journals/corr/HermansBL17,
+  author    = {Alexander Hermans and
+               Lucas Beyer and
+               Bastian Leibe},
+  title     = {In Defense of the Triplet Loss for Person Re-Identification},
+  journal   = {CoRR},
+  volume    = {abs/1703.07737},
+  year      = {2017},
+  url       = {http://arxiv.org/abs/1703.07737},
+  archivePrefix = {arXiv},
+  eprint    = {1703.07737},
+  timestamp = {Mon, 13 Aug 2018 16:47:38 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/HermansBL17},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
 </script>
