@@ -25,8 +25,8 @@ $(document).ready(function () { // this need jquery
 
 function show_image(val) {
   document.getElementById("demo").innerHTML = "Margin = " + val;
-  document.getElementById("caption1").innerHTML = "<strong>Figure A </strong>- Train data embeddings after training using triplet loss with margin " + val;
-  document.getElementById("caption2").innerHTML = "<strong>Figure B </strong>- Test data embeddings after training using triplet loss with margin " + val;
+  document.getElementById("caption1").innerHTML = "<strong>Figure 9 </strong>- Train data embeddings after training using triplet loss with margin " + val;
+  document.getElementById("caption2").innerHTML = "<strong>Figure 10 </strong>- Test data embeddings after training using triplet loss with margin " + val;
   
     var img = document.createElement("img");
     var img2 = document.createElement("img");
@@ -37,6 +37,57 @@ function show_image(val) {
     img.width = 100;
     img.height = 100;
     img.alt = 'Margin Visualization';
+}
+
+
+function show_image_epoch(val) {
+  document.getElementById("epoch_demo").innerHTML = "Epoch Number = " + val;
+  document.getElementById("caption3").innerHTML = "<strong>Figure 7 </strong>- Train data embeddings after training for " + val + " epochs";
+  document.getElementById("caption4").innerHTML = "<strong>Figure 8 </strong>- Test data embeddings after training for " + val + " epochs";
+  
+    var img = document.createElement("img");
+    var img2 = document.createElement("img");
+    img.src = "epoch_wise_viz/new_margin_10_train_epoch_" + val + ".png";
+    img2.src = "epoch_wise_viz/new_margin_10__epoch_val"+val+".png";
+    document.canvas3.src = img.src
+    document.canvas4.src = img2.src
+    img.width = 100;
+    img.height = 100;
+    img.alt = 'Epoch Visualization';
+}
+
+
+function show_image_1112(val) {
+  document.getElementById("demo-11-12").innerHTML = "Epoch Number = " + val;
+  document.getElementById("caption11").innerHTML = "<strong>Figure 11 </strong>- Train data embeddings after training for " + val + " epochs with L2 distance metric";
+  document.getElementById("caption12").innerHTML = "<strong>Figure 12 </strong>- Test data embeddings after training for " + val + " epochs with L2 distance metric";
+  
+    var img = document.createElement("img");
+    var img2 = document.createElement("img");
+    img.src = "distance_viz/L2_train_epoch_" + val + ".png";
+    img2.src = "distance_viz/L2_test_epoch_"+ val +".png";
+    document.canva11.src = img.src
+    document.canvas12.src = img2.src
+    img.width = 100;
+    img.height = 100;
+    img.alt = 'Epoch Visualization';
+}
+
+
+function show_image_1314(val) {
+  document.getElementById("demo-13-14").innerHTML = "Epoch Number = " + val;
+  document.getElementById("caption13").innerHTML = "<strong>Figure 13 </strong>- Train data embeddings after training for " + val + " epochs with L1 distance metric";
+  document.getElementById("caption14").innerHTML = "<strong>Figure 14 </strong>- Test data embeddings after training for " + val + " epochs with L1 distance metric";
+  
+    var img = document.createElement("img");
+    var img2 = document.createElement("img");
+    img.src = "distance_viz/L1_train_epoch_" + val + ".png";
+    img2.src = "distance_viz/L1_test_epoch_"+val+".png";
+    document.canva13.src = img.src
+    document.canvas14.src = img2.src
+    img.width = 100;
+    img.height = 100;
+    img.alt = 'Epoch Visualization';
 }
 
 </script>
@@ -64,16 +115,16 @@ function show_image(val) {
 
 
   <p>Deep neural networks have shown to give highly accurate results across problems in machine learning. However, this accuracy comes at a price which manifests in the form of high data requirements. To alleviate the problem of low amounts of data, techniques such as data augmentation, transfer learning and one-shot learning are used</p>
-  <p>In this article we plan to introduce and explain one-shot learning using siamese networks and triplet loss. We will look at what siamese networks are and what kind of loss functions are used. We will examine the advantages of siamese networks over state-of-the-art classifiers with the example of MNIST data. We will then further explore triplet loss and how to select ‘useful’ triplets for training siamese networks. Continuing with the example of MNIST, we shall examine the advantages of triplet loss and the different triplet selection methods.</p>
+  <p>In this article we introduce and explain one-shot learning using siamese networks and triplet loss. We will look at what siamese networks are and what kind of loss functions are used. We will examine the advantages of siamese networks over state-of-the-art classifiers with the example of MNIST data. We will then further explore triplet loss and how to select ‘useful’ triplets for training siamese networks. Continuing with the example of MNIST, we shall examine the advantages of triplet loss and the different triplet selection methods.</p>
 
   <h2>One Shot Learning</h2>
   <p>One shot learning is a classification technique used to train neural networks using only one or a few training samples. Apart from the advantage of requiring fewer samples than usual classification algorithms, it allows for increasing the number of classes without having to change the architecture of the model.</p>
   <p>In one shot learning, we aim to create a distance metric or a similarity function which brings samples of the same class closer to each other and those of different classes farther from each other. Therefore, we can judge which class a test sample belongs to be measuring the distance of the sample from the different classes. </p>
 
   <h2>Siamese Networks</h2>
-  <p>One such learning technique is called a siamese network. In a siamese network, we try to create embeddings of the samples such that the distance between samples of the same class is lower and between those of different classes is higher. A siamese network consists of two exact same neural networks with identical weights. We then pass a sample each into both the networks, calculate the loss and then depending on whether they are from the same class or different classes, we update the weights of both the networks. Since both the networks are identical, their weights will still remain the same after backpropagation. </p>
+  <p>Siamese networks can be used for learning the distance metric for one-shot learning. In a siamese network, we try to create embeddings of the samples such that the distance between samples of the same class is lower and between those of different classes is higher. A siamese network consists of two exact same neural networks with identical weights. We then pass a sample each into both the networks, calculate the loss and then depending on whether they are from the same class or different classes, we update the weights of both the networks. Since both the networks are identical, their weights will still remain the same after backpropagation. </p>
 
-  <p>As per figure TODO, you can see that a loss is calculated between the embeddings of both the networks. This automatically triggers the question as to what loss can be used for such networks. Two losses used in siamese networks are:
+  <p>In siamese networks,  a loss is calculated between the embeddings of both the networks. This automatically triggers the question as to what loss can be used for such networks. Two popular losses used in siamese networks are:
   <ol>
     <li>Contrastive Loss </li>
     <li>Triplet Loss</li>
@@ -82,9 +133,9 @@ function show_image(val) {
 
   <h2>Contrastive Loss</h2>
 
-  <p>The contrastive loss is defined between embeddings of two different inputs as:
+  <p>The contrastive loss <dt-cite key="contrastive"></dt-cite> is defined between embeddings of two different inputs as :
   \[Contrastive \, Loss = \frac{1}{2} \times (1-w) \times d(x,y)^2 + \frac{1}{2} \times w \times max(0, m - d(x,y))^2\]
-  where, <ul style="list-style: none; margin-top: -25">
+  where, <ul style="list-style: none; margin-top: -25"> 
     <li style="margin: 0;padding: 0em;">x = input sample 1</li>
     <li style="margin: 0;padding: 0em;">y = input sample 2</li>
     <li style="margin: 0;padding: 0em;">d(x,y) = distance metric between the embeddings of x and y</li> 
@@ -125,17 +176,17 @@ function show_image(val) {
 
 <figure id="compare-cw" class="l-page">
       <div class="subfigure">
-        <h5 style="grid-column: span 2;" class="column-heading">Contrastive Loss Comparison</h5>
+        <h5 style="grid-column: span 2;" class="column-heading">Cons of Contrastive Contrastive Loss</h5>
         <div style="grid-column: 1;" class="evidence">
             <img src="static_images/image2.png" alt="CWtrain">
             <div class="figcaption">
-                <strong>Figure A </strong>- Train data embeddings after training using contrastive loss
+                <strong>Figure 1 </strong>- Train data embeddings after training using contrastive loss
             </div>
         </div>
         <div style="grid-column: 2;" class="estimate">
             <img src="static_images/image4.png" alt="CWval">
             <div class="figcaption">
-                <strong>Figure B </strong>- Test data embeddings after training using contrastive loss
+                <strong>Figure 2 </strong>- Test data embeddings after training using contrastive loss
             </div>
         </div>
       </div>
@@ -143,7 +194,7 @@ function show_image(val) {
   </figure>
 
 </p>
-  <p>As you can see in figure A, using contrastive loss converges the embeddings of training inputs of the same class very close to each other. However, we see that is not the case for the test samples. We can see in figure B, that the embeddings do not cluster properly and that there are many overlaps. This hints to an evidence of overfitting when we use contrastive loss. Hence we use another type of loss - triplet loss.</p>
+  <p>Figure 1 and Figure 2 show the 2-dimensional embeddings learned by training siamese networks with contrastive loss for 30 epochs. As you can see in Figure 1 above, using contrastive loss the embeddings of training inputs of the same class converge very close to each other. However, we see that is not the case for the test samples. We can see in Figure 2, that the embeddings do not cluster properly and that there are many overlaps. This hints to an evidence of overfitting when we use contrastive loss. Hence we use another type of loss - triplet loss.</p>
 
   <h2>Triplet Loss</h2>
 
@@ -187,7 +238,7 @@ where, <ul style="list-style: none; margin-top: -25">
         <div style="grid-column: 1;" class="evidence">
             <img src="static_images/image1.png" alt="TLTriplets">
             <div class="figcaption">
-                How triplet loss learns embeddings
+                <strong>Figure 3 </strong> - How triplet loss learns embeddings
             </div>
         </div>
        
@@ -204,7 +255,7 @@ where, <ul style="list-style: none; margin-top: -25">
         <div style="grid-column: 1;" class="evidence">
             <img src="static_images/mnist_triplet.png" alt="TLNetwork">
             <div class="figcaption">
-                Network for training with triplet loss
+                <strong>Figure 4 </strong>- Network for training with triplet loss
             </div>
         </div>
        
@@ -214,28 +265,57 @@ where, <ul style="list-style: none; margin-top: -25">
 </p>
 <p>For training, the anchor, positive sample and the negative sample are each given as an input to three networks that are identical in structure and weights. These networks output the embedding of these 3 samples and these embeddings are used to compute the triplet loss. The loss is accumulated over all triplets formed by a batch of N samples and after the loss has been computed for all triplets, the gradients are back-propagated. </p>
 
-<p>As triplet loss just aims to have a positive sample closer to anchor than the negative sample, it does not force all samples of the same class to collapse to a single point. This is illustrated in the figures below. As can be seen, it performs much better on the test set and also generalises well compared to contrastive loss.</p>
+<p>As triplet loss just aims to have a positive sample closer to anchor than the negative sample, it does not force all samples of the same class to collapse to a single point. This is illustrated in the Figures 5 and 6 below. As can be seen, it performs much better on the test set and also generalises well compared to contrastive loss.</p>
 
 <figure id="compare-cw" class="l-page">
       <div class="subfigure">
-        <h5 style="grid-column: span 2;" class="column-heading">Triplet Loss Comparison</h5>
+        <!-- <h5 style="grid-column: span 2;" class="column-heading">Triplet Loss Comparison</h5> -->
         <div style="grid-column: 1;" class="evidence">
             <img src="static_images/train_epoch30.png" alt="CWtrain">
             <div class="figcaption">
-                <strong>Figure A </strong>- Train data embeddings after training using triplet loss
+                <strong>Figure 5 </strong>- Train data embeddings after training using triplet loss
             </div>
         </div>
         <div style="grid-column: 2;" class="estimate">
             <img src="static_images/test_epoch30.png" alt="CWval">
             <div class="figcaption">
-                <strong>Figure B </strong>- Test data embeddings after training using triplet loss
+                <strong>Figure 6 </strong>- Test data embeddings after training using triplet loss
             </div>
         </div>
       </div>
       
   </figure>
 
-<p>The triplet loss has only one hyperparameter - the margin. It represents the distances between two clusters of samples of different classes. The greater the margin, the greater the inter-cluster distance. The effect of changing the margin can be seen in the visualization below.</p>
+<p>The embeddings of the samples after each epoch for both train and test data can be seen in the visualization below. We can see that in the first few epochs the clusters become smaller. This can be attributed to the fact that triplet loss minimizes the distance between samples of same class. We can also see that the distance between clusters of different classes increase during the initial epochs. This is because triplet loss forces the samples from opposite classes to be farther away from each other than samples from same class. Finally we observe that after 20 epochs the clusters do not change significantly.</p>
+
+<figure id="compare-cw" class="l-page">
+      <div class="subfigure">
+        <!-- <h5 style="grid-column: span 2;" class="column-heading">Contrastive Loss Comparison</h5> -->
+        <div style="grid-column: 1;" class="evidence">
+  <img src="epoch_wise_viz/new_margin_10_train_epoch_1.png" name="canvas3" style="height: 500px;width: 500px" />
+            <div class="figcaption" id="caption3">
+                <strong>Figure 7 </strong>- Train data embeddings after training for 1 epoch
+            </div>
+<!--   <input type="range" name="weight" align="center" id="range_weight" value="1" min="1" max="20" oninput="show_image(range_weight.value)">
+  <p id="demo">Margin = 1</p> -->
+        </div>
+        <div style="grid-column: 2;" class="estimate">
+  <img src="epoch_wise_viz/new_margin_10__epoch_val1.png" name="canvas4" style="height: 500px;width: 500px" />
+            <div class="figcaption" id="caption4">
+                <strong>Figure 8 </strong>- Test data embeddings after training for 1 epoch 
+            </div>
+        </div>
+      </div>
+      
+  </figure>
+  <center>
+      <input type="range" name="weight" align="center" id="range_weight_epoch" value="1" min="1" max="30" oninput="show_image_epoch(range_weight_epoch.value)">
+  <br>
+    <p id="epoch_demo" align="center">Epoch Number = 1</p>
+    
+  </center>
+
+<p>The triplet loss has only one hyperparameter - the margin. It represents the distances between two clusters of samples of different classes. The greater the margin, the greater the inter-cluster distance. The effect of changing the margin can be visualized by changing the margin parameter and seeing the output in Figure 9 and 10. For this visualization we train siamese networks with triplet loss for 30 epochs for values of margin ranging from 1 to 20.</p>
 
 <figure id="compare-cw" class="l-page">
       <div class="subfigure">
@@ -243,7 +323,7 @@ where, <ul style="list-style: none; margin-top: -25">
         <div style="grid-column: 1;" class="evidence">
   <img src="margin_viz/train_margin_1_axis_40.png" name="canvas" style="height: 500px;width: 500px" />
             <div class="figcaption" id="caption1">
-                <strong>Figure A </strong>- Train data embeddings after training using triplet loss with margin 1
+                <strong>Figure 9 </strong>- Train data embeddings after training using triplet loss with margin 1
             </div>
 <!--   <input type="range" name="weight" align="center" id="range_weight" value="1" min="1" max="20" oninput="show_image(range_weight.value)">
   <p id="demo">Margin = 1</p> -->
@@ -251,7 +331,7 @@ where, <ul style="list-style: none; margin-top: -25">
         <div style="grid-column: 2;" class="estimate">
   <img src="margin_viz/train_margin_1_axis_40.png" name="canvas2" style="height: 500px;width: 500px" />
             <div class="figcaption" id="caption2">
-                <strong>Figure B </strong>- Test data embeddings after training using triplet loss with margin 1
+                <strong>Figure 10 </strong>- Test data embeddings after training using triplet loss with margin 1
             </div>
         </div>
       </div>
@@ -279,14 +359,69 @@ where, <ul style="list-style: none; margin-top: -25">
 <!-- <p id="demo" align="center">Margin = 1</p> -->
   
   <p>
-    For the above visualizations, we have used the  Euclidean distance as the distance metric. However, any distance metric can be used. Using the Euclidean distance has an advantage that the margin is more interpretable, as it represents the absolute distance. We plan to include a visualization in future showing how different distance metrics affect the learned embeddings. 
-
+    For the above visualizations, we have used the L2-squared distance as the distance metric. However, any distance metric can be used. The effect of using different distance functions on the learned embeddings can be seen using the visualization below. Figures 11 and 12 show the embeddings learned after each epoch using L2 distance metric. Figure 13 and 14 show the embeddings learned after each epoch for L1 distance metric. As can be seen, the embeddings learned using L1 distance metric are not suitable for performing classification, while those obtained using L2 distance are suitable for classification. Using the L2 distance has an added advantage that the margin is more interpretable, as it represents the absolute distance. We plan to investigate the reason behind the poor performance of L1 distance based embeddings in future. 
   </p>
+
+
+<figure id="compare-cw" class="l-page">
+      <div class="subfigure">
+        <!-- <h5 style="grid-column: span 2;" class="column-heading">Contrastive Loss Comparison</h5> -->
+        <div style="grid-column: 1;" class="evidence">
+  <img src="distance_viz/L2_train_epoch_1.png" name="canvas11" style="height: 500px;width: 500px" />
+            <div class="figcaption" id="caption11">
+                <strong>Figure 11 </strong>- Train data embeddings after training for 1 epoch with L2 distance metric
+            </div>
+<!--   <input type="range" name="weight" align="center" id="range_weight" value="1" min="1" max="20" oninput="show_image(range_weight.value)">
+  <p id="demo">Margin = 1</p> -->
+        </div>
+        <div style="grid-column: 2;" class="estimate">
+  <img src="distance_viz/L2_test_epoch_1.png" name="canvas12" style="height: 500px;width: 500px" />
+            <div class="figcaption" id="caption12">
+                <strong>Figure 12 </strong>- Test data embeddings after training for 1 epoch with L2 distance metric
+            </div>
+        </div>
+      </div>
+      
+  </figure>
+  <center>
+      <input type="range" name="weight" align="center" id="range_weight_1112" value="1" min="1" max="30" oninput="show_image_1112(range_weight_1112.value)">
+  <br>
+    <p id="demo-11-12" align="center">Epoch Number = 1</p>
+    
+  </center>
+
+
+<figure id="compare-cw" class="l-page">
+      <div class="subfigure">
+        <!-- <h5 style="grid-column: span 2;" class="column-heading">Contrastive Loss Comparison</h5> -->
+        <div style="grid-column: 1;" class="evidence">
+  <img src="distance_viz/L1_train_epoch_1.png" name="canvas13" style="height: 500px;width: 500px" />
+            <div class="figcaption" id="caption13">
+                <strong>Figure 13 </strong>- Train data embeddings after training for 1 epoch with L1 distance metric
+            </div>
+<!--   <input type="range" name="weight" align="center" id="range_weight" value="1" min="1" max="20" oninput="show_image(range_weight.value)">
+  <p id="demo">Margin = 1</p> -->
+        </div>
+        <div style="grid-column: 2;" class="estimate">
+  <img src="distance_viz/L1_test_epoch_1.png" name="canvas14" style="height: 500px;width: 500px" />
+            <div class="figcaption" id="caption14">
+                <strong>Figure 14 </strong>- Test data embeddings after training for 1 epoch with L1 distance metric
+            </div>
+        </div>
+      </div>
+      
+  </figure>
+  <center>
+      <input type="range" name="weight" align="center" id="range_1314" value="1" min="1" max="30" oninput="show_image_1314(range_1314.value)">
+  <br>
+    <p id="demo-13-14" align="center">Epoch Number = 1</p>
+    
+  </center>
+
 
   <p>Although triplet loss might seem to be a panacea, it does have its own cons. A major con of triplet loss is its scalability with respect to dataset size. As the size of datasets increase, the number of possible triplets also increases cubically. For example, for a batch of N samples there are O(N<sup>3</sup>) possible triplets. This makes training over all the triplets of large datasets impractical. </p>
 
-  <p>This problem can be alleviated if one smartly chooses the triplets for training. Ideally one would like to select a triplet which has the anchor, the 
-    est positive and the hardest negative, where hardest positive = argmax<sub>p</sub>(d(a,p)) and hardest negative = argmin<sub>n</sub>(d(a,n)). However, for a large dataset, it might be infeasible to compute argmax and argmin. Further, selecting the hardest samples might also result in poor training due to sample mislabelling and presence of outliers. </p>
+  <p>This problem can be alleviated if one smartly chooses the triplets for training. Ideally one would like to select a triplet which has the anchor, the hardest positive and the hardest negative, where hardest positive = argmax<sub>p</sub>(d(a,p)) and hardest negative = argmin<sub>n</sub>(d(a,n)). However, for a large dataset, it might be infeasible to compute argmax and argmin. Further, selecting the hardest samples might also result in poor training due to sample mislabelling and presence of outliers. </p>
 
   <p>The very definition of triplet loss classifies each triplet in three different categories. This classification of triplets can be used to select triplets for training. The three categories are as follows:
     <ol>
@@ -302,7 +437,7 @@ where, <ul style="list-style: none; margin-top: -25">
         <div style="grid-column: 1;" class="evidence">
             <img src="static_images/image5.png" alt="TLTriplettypes">
             <div class="figcaption">
-                Types of triplets
+                <strong>Figure 15 </strong>-Types of triplets
             </div>
         </div>
        
@@ -311,7 +446,7 @@ where, <ul style="list-style: none; margin-top: -25">
   </figure>
 </p>
 
-<p>The easy triplets already satisfy the constraint of triplet loss and do not contribute while training. Using easy triplets, leads to slower convergence and wasted computational resources. Hence one should avoid easy triplets while training. Selecting the hardest negatives can in practice lead to bad local minima early on in training, specifically, it can result in a collapsed model <dt-cite key="facenet"></dt-cite>. Hence for training, we avoid selecting easy or hard triplets and select semi-hard triplets. These semi-hard triplets generally lie inside the margin area as can be seen in Figure above</p>
+<p>The easy triplets already satisfy the constraint of triplet loss and do not contribute while training. Using easy triplets, leads to slower convergence and wasted computational resources. Hence one should avoid easy triplets while training. Selecting the hardest negatives can in practice lead to bad local minima early on in training, specifically, it can result in a collapsed model <dt-cite key="facenet"></dt-cite>. Hence for training, we avoid selecting easy or hard triplets and select semi-hard triplets. These semi-hard triplets generally lie inside the margin area as can be seen in Figure 15 above</p>
 
 <h2>Triplet Mining</h2>
 <p>Now that we know which triplets to select, we need to define a strategy to select these triplets before each epoch. The procedure for selecting useful triplets is known as triplet mining. It can be divided into two broad categories:
@@ -319,14 +454,14 @@ where, <ul style="list-style: none; margin-top: -25">
   <li>Offline Triplet Mining: All triplets generated at beginning. Not a good method for selecting triplets due to the high overhead of generating all triplets once.</li>
   <li>Online Triplet Mining: All triplets generated while training. Within online triplet mining there are a few techniques.
     <ol type = "a">
-      <li>Batch all: Select all the valid triplets, and average the loss on the hard and semi-hard triplets. 
+      <li>Batch all: Select all the valid triplets, and average the loss on the hard and semi-hard triplets <dt-cite key="tripletdefense"></dt-cite>. 
         <ul>
           <li>A crucial point here is to not take into account the easy triplets (those with loss 0), as averaging on them would make the overall loss very small</li>
           <li>Assuming that there are N classes with S samples in each class, this method produces a total of NS(S−1)(NS−S) triplets. (NS anchors, S−1 possible positives per anchor, NS - S possible negatives)
 </li>
         </ul></li>
         <li>
-          Batch hard: For each anchor, select the hardest positive (largest distance amongst all d(a,p)) and the hardest negative (least distance amongst all d(a,n)) among the batch
+          Batch hard: For each anchor, select the hardest positive (largest distance amongst all d(a,p)) and the hardest negative (least distance amongst all d(a,n)) among the batch <dt-cite key="tripletdefense"></dt-cite>.  
           <ul>
             <li>Again assuming that there are N classes with S samples in each class, this method produces NS triplets</li>
             <li>The selected triplets are the hardest among the batch</li>
@@ -335,7 +470,10 @@ where, <ul style="list-style: none; margin-top: -25">
         </li>
     </ol></li>
 </ol></p>
-<dt-cite></dt-cite>
+  <h2>Conclusion</h2>
+  <p>
+In this paper, we exlpain how one can use siamese networks for one-shot learning. We also explain the advantages of using triplet loss over contrastive loss. Further, we include visualizations that helps one understand how the value of margin and the distance metric affect the embedding learned using siamese networks with triplet loss. Finally, we also explain how one should select triplets and perform triplet mining for optimizing the training phase of siamese networks. 
+ </p>   
 </dt-article>
 </body>
 <dt-appendix>
