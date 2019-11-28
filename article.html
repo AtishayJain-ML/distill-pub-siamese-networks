@@ -266,7 +266,7 @@ where, <ul style="list-style: none; margin-top: -25">
 
   <p>Although triplet loss might seem to be a panacea, it does have its own cons. A major con of triplet loss is its scalability with respect to dataset size. As the size of datasets increase, the number of possible triplets also increases cubically. For example, for a batch of N samples there are O(N^3) possible triplets. This makes training over all the triplets of large datasets impractical. </p>
 
-  <p>This problem can be alleviated if one smartly chooses the triplets for training. Ideally one would like to select a triplet which has the anchor, the hardest positive and the hardest negative, where hardest positive = argmaxpd(a,p) and hardest negative = argminnd(a,n). However, for a large dataset, it might be infeasible to compute argmax and argmin. Further, selecting the hardest samples might also result in poor training due to sample mislabelling and presence of outliers. </p>
+  <p>This problem can be alleviated if one smartly chooses the triplets for training. Ideally one would like to select a triplet which has the anchor, the hardest positive and the hardest negative, where hardest positive = argmax<sub>p</sub>(d(a,p)) and hardest negative = argmin<sub>n</sub>(d(a,n)). However, for a large dataset, it might be infeasible to compute argmax and argmin. Further, selecting the hardest samples might also result in poor training due to sample mislabelling and presence of outliers. </p>
 
   <p>The very definition of triplet loss classifies each triplet in three different categories. This classification of triplets can be used to select triplets for training. The three categories are as follows:
     <ol>
