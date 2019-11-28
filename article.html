@@ -214,7 +214,26 @@ where, <ul style="list-style: none; margin-top: -25">
 </p>
 <p>For training, the anchor, positive sample and the negative sample are each given as an input to three networks that are identical in structure and weights. These networks output the embedding of these 3 samples and these embeddings are used to compute the triplet loss. The loss is accumulated over all triplets formed by a batch of N samples and after the loss has been computed for all triplets, the gradients are back-propagated. </p>
 
-<p>As triplet loss just aims to have a positive sample closer to anchor than the negative sample, it does not force all samples of the same class to collapse to a single point. Visualization [TODO] shows how the distances between samples vary with each training iteration. We can see the positive samples moving closer and the negative ones moving away. This also shows triplet loss generalizes better than contrastive loss. </p>
+<p>As triplet loss just aims to have a positive sample closer to anchor than the negative sample, it does not force all samples of the same class to collapse to a single point. This is illustrated in the figures below. As can be seen, it performs much better on the test set and also generalises well compared to contrastive loss.</p>
+
+<figure id="compare-cw" class="l-page">
+      <div class="subfigure">
+        <h5 style="grid-column: span 2;" class="column-heading">Triplet Loss Comparison</h5>
+        <div style="grid-column: 1;" class="evidence">
+            <img src="static_images/train_epoch30.png" alt="CWtrain">
+            <div class="figcaption">
+                <strong>Figure A </strong>- Train data embeddings after training using triplet loss
+            </div>
+        </div>
+        <div style="grid-column: 2;" class="estimate">
+            <img src="static_images/test_epoch30.png" alt="CWval">
+            <div class="figcaption">
+                <strong>Figure B </strong>- Test data embeddings after training using triplet loss
+            </div>
+        </div>
+      </div>
+      
+  </figure>
 
 <p>The triplet loss has only one hyperparameter - the margin. It represents the distances between two clusters of samples of different classes. The greater the margin, the greater the inter-cluster distance. The effect of changing the margin can be seen in the visualization below.</p>
 
@@ -260,7 +279,7 @@ where, <ul style="list-style: none; margin-top: -25">
 <!-- <p id="demo" align="center">Margin = 1</p> -->
   
   <p>
-    For the above visualizations, we have used the  Euclidean distance as the distance metric. However, any distance metric can be used. Using the Euclidean distance has an advantage that the margin is more interpretable, as it represents the absolute distance. Visualizations below show how the samples converge when trained using different distance metrics [TODO]. 
+    For the above visualizations, we have used the  Euclidean distance as the distance metric. However, any distance metric can be used. Using the Euclidean distance has an advantage that the margin is more interpretable, as it represents the absolute distance. We plan to include a visualization in future showing how different distance metrics affect the learned embeddings. 
 
   </p>
 
